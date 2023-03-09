@@ -26,8 +26,6 @@ export async function getPaymentByTicketId(req: AuthenticatedRequest, res: Respo
 }
 
 export async function paymentProcess(req: AuthenticatedRequest, res: Response) {
-  console.log(req.body);
-  
   try {
     const { userId } = req;
     const {

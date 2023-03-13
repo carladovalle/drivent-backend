@@ -38,3 +38,19 @@ export async function getHotelsWithRooms(req: AuthenticatedRequest, res: Respons
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 }
+
+export async function getHotelsWithRoomInfo(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  try {
+    const hotelsWithRoomInfo = await hotelService.getHotelsWithRoomInfo(Number(userId));
+    return res.status(httpStatus.OK).send(hotelsWithRoomInfo);
+  } catch (error) {
+    if (error.name === "cannotListHotelsError") {
+      return res.sendStatus(httpStatus.UNAUTHORIZED);
+    }
+    if (error.name === "NotFoundError") {
+      return res.sendStatus(httpStatus.NOT_FOUND);
+    }
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
+}

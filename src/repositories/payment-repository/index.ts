@@ -10,6 +10,7 @@ async function findPaymentByTicketId(ticketId: number) {
 }
 
 async function createPayment(ticketId: number, params: PaymentParams) {
+
   return prisma.payment.create({
     data: {
       ticketId,

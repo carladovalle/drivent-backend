@@ -37,7 +37,8 @@ async function findByUserId(userId: number) {
               image: true,
               name: true
             }
-          }
+          },
+          Booking: true
         }
       },
     }

@@ -38,6 +38,16 @@ async function main() {
             name: "Driven Resort",
             image: "https://viajandocomamalarosa.com.br/wp-content/uploads/2020/05/Ocean-Palace.jpg",
           },
+          {
+            name: "Driven Palace",
+            image:
+              "https://www.melhoresdestinos.com.br/wp-content/uploads/2021/04/resort-salinas-maragogi-capa-05-820x430.jpg",
+          },
+          {
+            name: "Driven World",
+            image:
+              "https://www.melhoresdestinos.com.br/wp-content/uploads/2021/04/resort-salinas-maragogi-capa-05-820x430.jpg",
+          },
         ],
       });
     }
@@ -52,7 +62,7 @@ async function main() {
 main();
 
 async function seedRooms() {
-  let rooms = await prisma.room.findFirst();
+  const rooms = await prisma.room.findFirst();
   if (!rooms) {
     const hotel = await prisma.hotel.findFirst();
     if (hotel) {

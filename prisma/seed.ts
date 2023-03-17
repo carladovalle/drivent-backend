@@ -51,6 +51,80 @@ async function main() {
         ],
       });
     }
+
+    let locales = await prisma.local.findMany();
+    if (locales.length === 0) {
+      await prisma.local.create({
+        data: {
+          name: "Auditório Principal",
+        },
+      });
+      await prisma.local.create({
+        data: {
+          name: "Auditório Lateral",
+        },
+      });
+      await prisma.local.create({
+        data: {
+          name: "Sala de Workshop",
+        },
+      });
+      locales = await prisma.local.findMany();
+    }
+
+    let activities = await prisma.activity.findMany();
+    if (activities.length === 0) {
+      await prisma.activity.create({
+        data: {
+          name: "Minecraft: Montando o PC ideal",
+          capacity: 27,
+          localId: locales[0].id,
+          date: new Date("2023-12-25T09:00:00-00:00"),
+          startTime: new Date("2023-12-25T09:00:00-00:00"),
+          endTime: new Date("2023-12-25T10:00:00-00:00"),
+        },
+      });
+      await prisma.activity.create({
+        data: {
+          name: "LoL: Montando o PC ideal",
+          capacity: 10,
+          localId: locales[0].id,
+          date: new Date("2023-12-24T10:00:00-00:00"),
+          startTime: new Date("2023-12-24T10:00:00-00:00"),
+          endTime: new Date("2023-12-24T11:00:00-00:00"),
+        },
+      });
+      await prisma.activity.create({
+        data: {
+          name: "Palestra x",
+          capacity: 27,
+          localId: locales[1].id,
+          date: new Date("2023-12-24T09:00:00-00:00"),
+          startTime: new Date("2023-12-24T09:00:00-00:00"),
+          endTime: new Date("2023-12-24T11:00:00-00:00"),
+        },
+      });
+      await prisma.activity.create({
+        data: {
+          name: "Palestra y",
+          capacity: 27,
+          localId: locales[2].id,
+          date: new Date("2023-12-24T09:00:00-00:00"),
+          startTime: new Date("2023-12-24T09:00:00-00:00"),
+          endTime: new Date("2023-12-24T10:00:00-00:00"),
+        },
+      });
+      await prisma.activity.create({
+        data: {
+          name: "Palestra z",
+          capacity: 1,
+          localId: locales[2].id,
+          date: new Date("2023-12-24T10:00:00-00:00"),
+          startTime: new Date("2023-12-24T10:00:00-00:00"),
+          endTime: new Date("2023-12-24T11:00:00-00:00"),
+        },
+      });
+    }
   } catch (error) {
     console.error(error);
     process.exit(1);

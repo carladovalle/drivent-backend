@@ -30,6 +30,9 @@ async function findActivitiesWithLocals(date: Date) {
         },
       },
     },
+    orderBy: {
+      name: "asc",
+    },
   });
 }
 
@@ -42,7 +45,7 @@ async function findDaysWithActivities() {
   });
 }
 
-async function getActivityById(activityId: number) {
+async function findUsersByActivityId(activityId: number) {
   return prisma.activity.findFirst({
     where: {
       id: activityId,
@@ -50,7 +53,7 @@ async function getActivityById(activityId: number) {
   });
 }
 
-async function getAllActivitiesFromUser(userId: number) {
+async function findAllActivitiesFromUser(userId: number) {
   return prisma.userActivity.findMany({
     where: {
       userId,
@@ -61,13 +64,10 @@ async function getAllActivitiesFromUser(userId: number) {
   });
 }
 
-async function getUserActivity(userId: number) {
-  return prisma.userActivity.findMany({
+async function findById(id: number) {
+  return prisma.activity.findUnique({
     where: {
-      userId,
-    },
-    select: {
-      activityId: true,
+      id,
     },
   });
 }
@@ -76,9 +76,9 @@ const activitiesRepository = {
   findDates,
   findActivitiesWithLocals,
   findDaysWithActivities,
-  getActivityById,
-  getAllActivitiesFromUser,
-  getUserActivity,
+  findUsersByActivityId,
+  findAllActivitiesFromUser,
+  findById,
 };
 
 export default activitiesRepository;

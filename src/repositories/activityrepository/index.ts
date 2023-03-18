@@ -46,10 +46,8 @@ async function findDaysWithActivities() {
 }
 
 async function findUsersByActivityId(activityId: number) {
-  return prisma.activity.findFirst({
-    where: {
-      id: activityId,
-    },
+  return prisma.userActivity.findMany({
+    where: { activityId },
   });
 }
 
@@ -72,7 +70,7 @@ async function findById(id: number) {
   });
 }
 
-const activitiesRepository = {
+const activityRepository = {
   findDates,
   findActivitiesWithLocals,
   findDaysWithActivities,
@@ -81,4 +79,4 @@ const activitiesRepository = {
   findById,
 };
 
-export default activitiesRepository;
+export default activityRepository;

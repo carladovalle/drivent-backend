@@ -70,6 +70,19 @@ async function findById(id: number) {
   });
 }
 
+async function findUsersAndCapacityOfActivity(activityId: number) {
+  return prisma.activity.findMany({
+    where: { id: activityId },
+    include: {
+      UserActivity: true
+    }
+  });
+}
+
+async function insertUserActivity(userId: number, activityId: number) {
+  return prisma.userActivity.create({ data: { userId, activityId } });
+}
+
 const activityRepository = {
   findDates,
   findActivitiesWithLocals,
@@ -77,6 +90,8 @@ const activityRepository = {
   findUsersByActivityId,
   findAllActivitiesFromUser,
   findById,
+  findUsersAndCapacityOfActivity,
+  insertUserActivity
 };
 
 export default activityRepository;

@@ -1,20 +1,15 @@
 import app, { init } from "@/app";
-import { prisma } from "@/config";
 import faker from "@faker-js/faker";
 import { TicketStatus } from "@prisma/client";
-import e from "express";
 import httpStatus from "http-status";
 import * as jwt from "jsonwebtoken";
 import supertest from "supertest";
 import {
   createEnrollmentWithAddress,
   createUser,
-  createTicketType,
   createTicket,
   createPayment,
-  generateCreditCardData,
   createTicketTypeWithHotel,
-  createTicketTypeRemote,
   createHotel,
   createRoomWithHotelId,
   createBooking
@@ -59,13 +54,8 @@ describe("GET /booking", () => {
     it("should respond with status 404 when user has not a booking ", async () => {
       const user = await createUser();
       const token = await generateValidToken(user);
-      const enrollment = await createEnrollmentWithAddress(user);
-      const ticketType = await createTicketTypeWithHotel();
-      const ticket = await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
-      const payment = await createPayment(ticket.id, ticketType.price);
 
       const hotel = await createHotel();
-      const room = await createRoomWithHotelId(hotel.id);
 
       const response = await server.get("/booking").set("Authorization", `Bearer ${token}`);
 

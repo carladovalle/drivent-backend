@@ -1,7 +1,7 @@
 import eventsService from "@/services/events-service";
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { redisClient } from "@/app";
+import { redisClient } from "@/config/database";
 
 export async function getDefaultEvent(_req: Request, res: Response) {
   try {

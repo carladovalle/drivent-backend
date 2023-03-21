@@ -51,3 +51,22 @@ export async function getNumberOfUsersByActivity(req: AuthenticatedRequest, res:
     return;
   }
 }
+
+export async function postUserActivity(req: AuthenticatedRequest, res: Response) {
+  const { userId, params } = req;
+  try {
+    await activitiesService.postUserActivity(userId as number, Number(params.activityId));
+    res.sendStatus(201);
+    return;
+  } catch (error) {
+    if (error.name === 'NotFoundError') {
+      res.sendStatus(httpStatus.NOT_FOUND);
+    }
+
+    if (error.name === 'ConflictError') {
+      res.sendStatus(httpStatus.CONFLICT);
+    }
+
+    res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
+  }
+}

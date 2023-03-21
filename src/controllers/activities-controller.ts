@@ -70,3 +70,15 @@ export async function postUserActivity(req: AuthenticatedRequest, res: Response)
     res.sendStatus(httpStatus.INTERNAL_SERVER_ERROR);
   }
 }
+
+export async function getRegistrations(req: AuthenticatedRequest, res: Response) {
+  try {
+    const { userId } = req;
+
+    const registrations = await activitiesService.getRegistrations(userId);
+
+    return res.status(httpStatus.OK).send(registrations);
+  } catch (error) {
+    return res.sendStatus(httpStatus.UNAUTHORIZED);
+  }
+}

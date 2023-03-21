@@ -4,6 +4,7 @@ import ticketRepository from "@/repositories/ticket-repository";
 import { notFoundError, cannotListActivitiesError, conflictError } from "@/errors";
 import { formatDateWithWeekday } from "@/utils/format-date";
 import { Activity, UserActivity } from "@prisma/client";
+import { formatDate, formatTime } from "@/utils/format-date";
 
 async function checkTicket(userId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
@@ -62,11 +63,31 @@ async function postUserActivity(userId: number, activityId: number) {
   await activityRepository.insertUserActivity(userId, activityId);
 }
 
+async function getRegistrations(userId: number) {
+  await checkTicket(userId);
+
+  const registrationsResult = await activityRepository.findByUserId(userId);
+
+  const registrations = registrationsResult.map((activity) => {
+    return {
+      id: activity.id,
+      activityId: activity.activityId,
+      capacity: activity.Activity.capacity,
+      date: formatDate(activity.Activity.date),
+      startTime: formatTime(activity.Activity.startTime),
+      endTime: formatTime(activity.Activity.endTime),
+    };
+  });
+
+  return registrations;
+}
+
 const activitiesService = {
   getDate,
   getActivitiesByLocals,
   getNumberOfUsersByActivityId,
-  postUserActivity
+  postUserActivity,
+  getRegistrations
 };
 
 export default activitiesService;

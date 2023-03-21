@@ -83,6 +83,17 @@ async function insertUserActivity(userId: number, activityId: number) {
   return prisma.userActivity.create({ data: { userId, activityId } });
 }
 
+async function findByUserId(userId: number) {
+  return prisma.userActivity.findMany({
+    where: {
+      userId,
+    },
+    include: {
+      Activity: true,
+    },
+  });
+}
+
 const activityRepository = {
   findDates,
   findActivitiesWithLocals,
@@ -91,7 +102,8 @@ const activityRepository = {
   findAllActivitiesFromUser,
   findById,
   findUsersAndCapacityOfActivity,
-  insertUserActivity
+  insertUserActivity,
+  findByUserId
 };
 
 export default activityRepository;
